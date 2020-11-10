@@ -1,0 +1,56 @@
+version: "3.4"
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: "bitnami/zookeeper:3"
+    ports:
+      - "2181:2181"
+    # volumes:
+    #   - 'zookeeper_data:/bitnami'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    container_name: kafka
+    image: "bitnami/kafka:2.2.1"
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    # volumes:
+    #   - 'kafka_data:/bitnami'
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENERS=LOCAL://kafka:9092,DOCKER://kafka:29092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=LOCAL://localhost:9092,DOCKER://kafka:29092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=LOCAL:PLAINTEXT,DOCKER:PLAINTEXT
+      - KAFKA_CFG_SECURITY_INTER_BROKER_PROTOCOL=SASL_PLAINTEXT
+      - KAFKA_CFG_SASL_MECHANISM_INTER_BROKER_PROTOCOL=PLAIN
+      - KAFKA_CFG_SASL_ENABLED_MECHANISMS=PLAIN
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=DOCKER
+    depends_on:
+      - zookeeper
+    healthcheck:
+      test:
+        ["CMD", "kafka-topics.sh", "--list", "--zookeeper", "zookeeper:2181"]
+      interval: 15s
+      timeout: 5s
+      retries: 50
+
+  kafkahq:
+    container_name: kafkahq
+    image: "tchiotludo/kafkahq"
+    ports:
+      - "18080:8080"
+    # volumes:
+    #   - 'kafka_data:/bitnami'
+    environment:
+      KAFKAHQ_CONFIGURATION: |
+        kafkahq:
+          connections:
+            docker-kafka-server:
+              properties:
+                bootstrap.servers: "kafka:29092"
+    depends_on:
+      - kafka
+      - zookeeper

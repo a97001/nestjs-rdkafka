@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "declaration": true,
+        "noImplicitAny": false,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "target": "es2017",
+        "sourceMap": false,
+        "outDir": "build",
+        "baseUrl": "./",
+        "incremental": true,
+        "tsBuildInfoFile": ".tsbuildinfo",
+        "lib": [
+            "esnext"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "dist",
+        "build",
+        "example"
+    ]
+}

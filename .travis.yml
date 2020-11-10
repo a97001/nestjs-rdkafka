@@ -1,0 +1,40 @@
+language: node_js
+
+os: linux
+dist: bionic
+
+node_js: "12"
+
+install:
+  - npm install
+
+before_script:
+  - docker-compose up -d
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+jobs:
+  include:
+    - stage: run lint and build
+      script: npm run lint && npm run build
+    - stage: unit tests with coverage
+      if: branch = main
+      script:
+        - npm run test:cov
+      after_script:
+        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+    - stage: npm run release
+      if: branch = main
+      node_js: lts/*
+      script:
+        - npx semantic-release
+    # - stage: deploy documentation
+    #   if: branch IN (main) AND NOT type IN (pull_request)
+    #   script:
+    #     - git config --global user.name "${GH_NAME}"
+    #     - git config --global user.email "${GH_EMAIL}"
+    #     - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
+    #     - GIT_USER="${GH_NAME}" npm deploy
+    #   on: 
+    #     branch: main
