@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/a97001/nestjs-rdkafka/compare/v1.0.2...v1.0.3) (2020-11-11)
+
+
+### Bug Fixes
+
+* **doc:** correct readme package name ([89946a7](https://github.com/a97001/nestjs-rdkafka/commit/89946a77cc34982217034089a7096f5e296ca360))
+
 ## [1.0.2](https://github.com/a97001/nestjs-rdkafka/compare/v1.0.1...v1.0.2) (2020-11-11)
 
 
