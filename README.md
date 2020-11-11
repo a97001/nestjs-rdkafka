@@ -1,5 +1,5 @@
 
-# nestjs-typegoose
+# nestjs-rdkafka
 
 [![NPM](https://nodei.co/npm/nestjs-rdkafka.png)](https://www.npmjs.com/package/nestjs-rdkafka)
 

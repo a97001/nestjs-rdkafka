@@ -96,14 +96,12 @@ export class KafkaService implements OnApplicationBootstrap, OnModuleDestroy {
         }
         const messageMap = new Map<string, { key: string, value: any, timestamp: number, headers: any }[]>();
         for (const msg of messages) {
-            const mapMsg = {
-                key: msg.key.toString('utf-8'), value: msg.value, timestamp: msg.timestamp, headers: msg.headers[0]
-            };
-            if (messageMap.has(msg.topic)) {
-                messageMap.get(msg.topic).push(mapMsg);
-            } else {
-                messageMap.set(msg.topic, [mapMsg]);
+            if (!messageMap.has(msg.topic)) {
+                messageMap.set(msg.topic, []);
             }
+            messageMap.get(msg.topic).push({
+                key: msg.key.toString('utf-8'), value: msg.value, timestamp: msg.timestamp, headers: msg.headers[0]
+            });
         }
         const promises = [];
         for (const key of messageMap.keys()) {
