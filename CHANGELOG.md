@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/a97001/nestjs-rdkafka/compare/v1.0.1...v1.0.2) (2020-11-11)
+
+
+### Bug Fixes
+
+* **service:** resolve cognitive complexity ([eb15ff3](https://github.com/a97001/nestjs-rdkafka/commit/eb15ff334d896a2acade32de0ae5c65ed38ceac7))
+
 ## [1.0.1](https://github.com/a97001/nestjs-rdkafka/compare/v1.0.0...v1.0.1) (2020-11-11)
 
 
