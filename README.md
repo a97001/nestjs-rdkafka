@@ -7,8 +7,8 @@
 [![Build Status](https://travis-ci.org/a97001/nestjs-rdkafka.svg?branch=main)](https://travis-ci.org/a97001/nestjs-rdkafka)
 ![npm](https://img.shields.io/npm/dm/nestjs-rdkafka)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/nestjs-rdkafka)  
-[![Maintainability](https://api.codeclimate.com/v1/badges/5926630ff4ad1a8bd0bd/maintainability)](https://codeclimate.com/github/a97001/nestjs-rdkafka/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/5926630ff4ad1a8bd0bd/test_coverage)](https://codeclimate.com/github/a97001/nestjs-rdkafka/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/53b44fd83fa37a8d7dba/maintainability)](https://codeclimate.com/github/a97001/nestjs-rdkafka/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/53b44fd83fa37a8d7dba/test_coverage)](https://codeclimate.com/github/a97001/nestjs-rdkafka/test_coverage)
 
 ## Description
 
