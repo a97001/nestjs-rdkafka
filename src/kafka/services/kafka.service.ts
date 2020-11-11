@@ -1,7 +1,6 @@
 import { Injectable, Inject, OnModuleDestroy, OnApplicationBootstrap } from '@nestjs/common';
 import delay = require('delay');
 import * as rdkafka from 'node-rdkafka';
-// import { Producer, Admin, ITopicConfig } from 'kafkajs';
 
 @Injectable()
 export class KafkaService implements OnApplicationBootstrap, OnModuleDestroy {
@@ -76,14 +75,12 @@ export class KafkaService implements OnApplicationBootstrap, OnModuleDestroy {
 
     private async createTopics() {
         const topicConfigs = Array.from(this.subscriberMap.values()).map(v => v.config);
-        const promises = topicConfigs.map((config) => new Promise((resolve) => {
-            this.adminClient.createTopic(config, (err) => {
-                if (err) {
-                    console.log(err);
-                }
-                resolve();
-            });
-        }));
+        const promises = topicConfigs.map((config) => new Promise((resolve) => this.adminClient.createTopic(config, (err) => {
+            if (err) {
+                console.log(err);
+            }
+            resolve();
+        })));
         await Promise.all(promises);
         const topicList = topicConfigs.map(topicConfig => topicConfig.topic);
         if (topicList.length > 0) {
@@ -99,18 +96,15 @@ export class KafkaService implements OnApplicationBootstrap, OnModuleDestroy {
         }
         const messageMap = new Map<string, { key: string, value: any, timestamp: number, headers: any }[]>();
         for (const msg of messages) {
+            const mapMsg = {
+                key: msg.key.toString('utf-8'), value: msg.value, timestamp: msg.timestamp, headers: msg.headers[0]
+            };
             if (messageMap.has(msg.topic)) {
-                messageMap.get(msg.topic).push({
-                    key: msg.key.toString('utf-8'), value: msg.value, timestamp: msg.timestamp, headers: msg.headers[0]
-                });
+                messageMap.get(msg.topic).push(mapMsg);
             } else {
-                messageMap.set(
-                    msg.topic,
-                    [{ key: msg.key.toString('utf-8'), value: msg.value, timestamp: msg.timestamp, headers: msg.headers[0] }]
-                );
+                messageMap.set(msg.topic, [mapMsg]);
             }
         }
-
         const promises = [];
         for (const key of messageMap.keys()) {
             promises.push(this.subscriberMap.get(key).callback(messageMap.get(key)));
@@ -118,7 +112,6 @@ export class KafkaService implements OnApplicationBootstrap, OnModuleDestroy {
         try {
             await Promise.all(promises);
             this.consumer.commit();
-            return;
         } catch (err) {
             throw err;
         }

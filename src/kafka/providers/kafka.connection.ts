@@ -9,9 +9,7 @@ async function connectConsumer(options: KafkaConsumerOptions): Promise<rdkafka.K
     try {
         const consumer = new rdkafka.KafkaConsumer(options.conf, options.topicConf);
         await new Promise((resolve) => {
-            consumer.on('ready', () => {
-                resolve();
-            });
+            consumer.on('ready', () => resolve());
             consumer.connect();
         });
         return consumer;
@@ -27,9 +25,7 @@ async function connectProducer(options: KafkaProducerOptions): Promise<rdkafka.P
         }
         const producer = new rdkafka.Producer(options.conf, options.topicConf);
         await new Promise((resolve) => {
-            producer.on('ready', () => {
-                resolve();
-            });
+            producer.on('ready', () => resolve());
             producer.connect();
         });
         return producer;
@@ -54,17 +50,11 @@ export function getKafkaConnectionProvider(options: KafkaConnectionOptions) {
             let consumer: rdkafka.KafkaConsumer;
             let producer: rdkafka.Producer;
 
-            if (options.consumer) {
-                consumer = await connectConsumer(options.consumer);
-            }
-            if (options.producer) {
-                producer = await connectProducer(options.producer);
-            }
-            if (options.adminClient) {
-                adminClient = await connectAdminClient(options.adminClient);
-            }
-            return { adminClient, consumer, producer };
-        },
-        inject: []
+            return { 
+                adminClient: options.adminClient ? await connectAdminClient(options.adminClient) : adminClient,
+                consumer: options.consumer ? await connectConsumer(options.consumer) : consumer,
+                producer: options.producer ? await connectProducer(options.producer) : producer
+            };
+        }
     }
 };
