@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/a97001/nestjs-rdkafka/compare/v1.0.4...v1.0.5) (2020-11-12)
+
+
+### Bug Fixes
+
+* **interface:** expose some node-rdkafka interface ([ca8ca43](https://github.com/a97001/nestjs-rdkafka/commit/ca8ca43c78cc047121153a45c37525c022211a91))
+
 ## [1.0.4](https://github.com/a97001/nestjs-rdkafka/compare/v1.0.3...v1.0.4) (2020-11-12)
 
 
