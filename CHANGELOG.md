@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/a97001/nestjs-rdkafka/compare/v1.0.3...v1.0.4) (2020-11-12)
+
+
+### Bug Fixes
+
+* **dep:** resolve npm audit problems ([bd178ed](https://github.com/a97001/nestjs-rdkafka/commit/bd178edf10ea3e53961501258a9ac1fd6e2080a2))
+
 ## [1.0.3](https://github.com/a97001/nestjs-rdkafka/compare/v1.0.2...v1.0.3) (2020-11-11)
 
 
